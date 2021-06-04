@@ -1,7 +1,23 @@
 .item {
-  margin: 1rem 0;
+  padding: 1rem 0;
   color: #4a5555;
   font-size: 1.25rem;
   padding-bottom: 0.5rem;
-  border-bottom: 2px solid teal;;
+  border-bottom: 2px solid teal;
+  display: flex;
+}
+
+.loading {
+  padding: 1rem 0;
+  background-color: #868685;
+  font-size: 1.25rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid teal;
+  display: flex;
+}
+
+.itemSpinner {
+  /* margin-left: 6rem;
+  margin-top: -26px;
+  position: absolute; */
 }

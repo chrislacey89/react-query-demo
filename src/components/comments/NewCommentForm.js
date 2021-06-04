@@ -1,10 +1,7 @@
 import axios from 'axios';
 import { useRef, useEffect } from 'react';
 
-import useHttp from '../../hooks/use-http';
-
 import LoadingSpinner from '../UI/LoadingSpinner';
-import { addComment } from '../../lib/api';
 import classes from './NewCommentForm.module.css';
 import {
   QueryClient,
@@ -29,15 +26,18 @@ const NewCommentForm = ({ quoteId }) => {
       // an error
       onMutate: async (newComment) => {
         await queryClient.cancelQueries(['allComments', quoteId]);
-        console.log("🚀 ~ file: NewCommentForm.js ~ line 34 ~ onMutate: ~ newComment", newComment)
+        console.log(
+          '🚀 ~ file: NewCommentForm.js ~ line 34 ~ onMutate: ~ newComment',
+          newComment,
+        );
         const previousValue = queryClient.getQueryData([
           'allComments',
           quoteId,
         ]);
-        newComment.status = 'loading'
+        newComment.status = 'loading';
         queryClient.setQueryData(['allComments', quoteId], (old) => [
           ...old,
-          newComment
+          newComment,
         ]);
 
         return previousValue;
@@ -55,25 +55,16 @@ const NewCommentForm = ({ quoteId }) => {
 
   const commentTextRef = useRef();
 
-  const { sendRequest, status, error } = useHttp(addComment);
-
   const submitFormHandler = (event) => {
     event.preventDefault();
 
     const enteredText = commentTextRef.current.value;
 
-    // optional: Could validate here
     addCommentMutation.mutate({ text: enteredText });
-    // sendRequest({ commentData: { text: enteredText }, quoteId });
   };
 
   return (
     <form className={classes.form} onSubmit={submitFormHandler}>
-      {status === 'pending' && (
-        <div className="centered">
-          <LoadingSpinner />
-        </div>
-      )}
       <div className={classes.control} onSubmit={submitFormHandler}>
         <label htmlFor="comment">Your Comment</label>
         <textarea id="comment" rows="5" ref={commentTextRef}></textarea>

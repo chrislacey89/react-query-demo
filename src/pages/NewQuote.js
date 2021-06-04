@@ -2,8 +2,7 @@ import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import QuoteForm from '../components/quotes/QuoteForm';
-import useHttp from '../hooks/use-http';
-import { addQuote } from '../lib/api';
+
 import {
   QueryClient,
   QueryClientProvider,
@@ -31,7 +30,6 @@ const NewQuote = () => {
         const previousValue = queryClient.getQueryData('allPosts');
 
         queryClient.setQueryData('allPosts', (old) => [...old, newQuote]);
-        history.push('/quotes');
 
         return previousValue;
       },
@@ -42,6 +40,7 @@ const NewQuote = () => {
       // After success or failure, refetch the todos query
       onSettled: async () => {
         await queryClient.invalidateQueries('allPosts');
+        history.push('/quotes');
       },
     },
   );

@@ -1,12 +1,11 @@
 import { Fragment } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
+import LoadingSpinner from '../UI/LoadingSpinner';
 
 import QuoteItem from './QuoteItem';
 import classes from './QuoteList.module.css';
 
 const sortQuotes = (quotes, ascending) => {
-  console.log('🚀 ~ file: QuoteList.js ~ line 8 ~ sortQuotes ~ quotes', quotes);
-
   const result = quotes.sort((quoteA, quoteB) => {
     if (ascending) {
       return quoteA.id > quoteB.id ? 1 : -1;
@@ -17,8 +16,7 @@ const sortQuotes = (quotes, ascending) => {
   return result;
 };
 
-const QuoteList = ({ quotes }) => {
-  console.log('props', quotes);
+const QuoteList = ({ quotes, isFetching }) => {
   const history = useHistory();
   const location = useLocation();
 
@@ -37,10 +35,25 @@ const QuoteList = ({ quotes }) => {
 
   return (
     <Fragment>
-      <div className={classes.sorting}>
-        <button onClick={changeSortingHandler}>
-          Sort {isSortingAscending ? 'Descending' : 'Ascending'}
-        </button>
+      <div className="quote-list-container">
+        <div className={classes.sorting}>
+          <button onClick={changeSortingHandler}>
+            Sort {isSortingAscending ? 'Descending' : 'Ascending'}
+          </button>
+        </div>
+
+        <span
+          style={{
+            display: 'inline-block',
+            marginLeft: 'auto',
+            width: 10,
+            height: 10,
+            background: isFetching ? '#445544' : 'transparent',
+            transition: !isFetching ? 'all 1.5s ease' : 'none',
+            borderRadius: '100%',
+            transform: 'scale(2)',
+          }}
+        />
       </div>
       <ul className={classes.list}>
         {sortedQuotes.map((quote) => (

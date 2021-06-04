@@ -1,12 +1,20 @@
 import classes from './CommentItem.module.css';
+import LoadingSpinner from '../UI/LoadingSpinner';
 
-const CommentItem = (props) => {
-console.log("🚀 ~ file: CommentItem.js ~ line 4 ~ CommentItem ~ props", props)
+const CommentItem = ({ loading, text }) => {
   return (
-    <li className={classes.item}>
-      <p>{props.text}</p>
-      {props.loading === 'loading'? <p>'loading...'</p> : null}
-    </li>
+    <>
+      {loading === 'loading' ? (
+        <li className={classes.loading}>
+          <div>{text}</div>
+          <LoadingSpinner />
+        </li>
+      ) : (
+        <div className={classes.item}>
+          <div>{text}</div>
+        </div>
+      )}
+    </>
   );
 };
 

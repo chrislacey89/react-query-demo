@@ -15,11 +15,15 @@ body {
   justify-content: center;
   align-items: center;
 }
+.quote-list-container {
+  display: flex;
+  align-items: center;
+}
 
 .focused {
   font-size: 3rem;
   font-weight: bold;
-  color: white;
+  color: #000;
 }
 
 .btn {

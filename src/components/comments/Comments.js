@@ -3,8 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import classes from './Comments.module.css';
 import NewCommentForm from './NewCommentForm';
-import useHttp from '../../hooks/use-http';
-import { getAllComments } from '../../lib/api';
+
 import LoadingSpinner from '../UI/LoadingSpinner';
 import CommentsList from './CommentsList';
 
@@ -21,13 +20,6 @@ function useComments(quoteId) {
     const { data } = await axios.get(
       `https://react-query-practice-default-rtdb.firebaseio.com/comments/${quoteId}.json`,
     );
-    // console.log('👋🏻👋🏻👋🏻data', data);
-
-    // const loadedQuote = {
-    //   id: quoteId,
-    //   ...data,
-    // };
-    // return loadedQuote;
 
     const transformedComments = [];
 
@@ -35,7 +27,7 @@ function useComments(quoteId) {
       const commentObj = {
         id: key,
         ...data[key],
-        status: 'done'
+        status: 'done',
       };
 
       transformedComments.push(commentObj);
@@ -56,21 +48,10 @@ const Comments = () => {
     error,
     isFetching,
   } = useComments(quoteId);
-    // console.log("🚀 ~ file: Comments.js ~ line 58 ~ Comments ~ data", loadedComments)
-
-  const { sendRequest } = useHttp(getAllComments);
-
-  useEffect(() => {
-    sendRequest(quoteId);
-  }, [quoteId, sendRequest]);
 
   const startAddCommentHandler = () => {
     setIsAddingComment(true);
   };
-
-  const addedCommentHandler = useCallback(() => {
-    sendRequest(quoteId);
-  }, [sendRequest, quoteId]);
 
   let comments;
 
@@ -101,12 +82,7 @@ const Comments = () => {
           Add a Comment
         </button>
       )}
-      {isAddingComment && (
-        <NewCommentForm
-          quoteId={quoteId}
-          onAddedComment={addedCommentHandler}
-        />
-      )}
+      {isAddingComment && <NewCommentForm quoteId={quoteId} />}
       {comments}
     </section>
   );
